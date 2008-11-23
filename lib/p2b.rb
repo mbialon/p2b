@@ -4,6 +4,7 @@
 # p2b help - lists available commands
 
 require 'blogger_service'
+require 'article'
 
 module Post2Blogger
 
@@ -31,22 +32,29 @@ module Post2Blogger
   end
 
   class PushCommand
+    attr_reader :filename, :email, :password
+
     def self.is?(cmd)
       "push".eql? cmd
     end
 
     def initialize(args)
       @filename = args[0]
-    end
-
-    def filename
-      @filename
+      @email = args[1]
+      @password = args[2]
     end
 
     def execute
-      article = Article.from_file(filename())
-      blogger = BloggerService.new
-      blogger.push(article)
+      svc = BloggerService.new(email, password)
+      puts "not logged in" unless svc.login!
+      if (svc.logged_in? && svc.push(Article.from_file(filename)))
+        puts "ok"
+      else
+        puts "failed"
+      end
     end
   end
 end
+
+p = Post2Blogger::Post2Blogger.new
+p.invoke(ARGV)

@@ -1,6 +1,8 @@
 require 'test/unit'
 require 'net/http'
 require 'uri'
+require 'rubygems'
+require 'atom/pub'
 require 'blogger_service'
 
 class BloggerServiceTest < Test::Unit::TestCase

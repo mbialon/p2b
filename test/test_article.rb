@@ -1,5 +1,6 @@
 require 'test/unit'
 require 'rubygems'
+require 'mocha'
 require 'BlueCloth'
 
 class ArticleTest < Test::Unit::TestCase

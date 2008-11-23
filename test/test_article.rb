@@ -2,8 +2,11 @@ require 'test/unit'
 require 'rubygems'
 require 'mocha'
 require 'BlueCloth'
+require 'article'
 
 class ArticleTest < Test::Unit::TestCase
+  include Post2Blogger
+
   def prepare_file
     file = mock()
     file.stubs(:name => 'foo')

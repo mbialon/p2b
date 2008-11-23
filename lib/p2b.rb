@@ -56,5 +56,7 @@ module Post2Blogger
   end
 end
 
-p = Post2Blogger::Post2Blogger.new
-p.invoke(ARGV)
+if __FILE__ == $0
+  p = Post2Blogger::Post2Blogger.new
+  p.invoke(ARGV)
+end

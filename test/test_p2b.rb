@@ -43,13 +43,17 @@ class PushCommandTest < Test::Unit::TestCase
 
   def test_should_execute_command
     filename = "foo"
-    cmd = PushCommand.new([filename])
+    email = "fake_email"
+    passwd = "fake_passwd"
+    cmd = PushCommand.new([filename, email, passwd])
     
     article = mock()
     Article.expects(:from_file).with(filename).returns(article)
 
     service = mock()
-    BloggerService.expects(:new).returns(service)
+    BloggerService.expects(:new).with(email, passwd).returns(service)
+    service.expects(:login!).returns(true)
+    service.expects(:logged_in?).returns(true)
     service.expects(:push).with(article)
 
     cmd.execute

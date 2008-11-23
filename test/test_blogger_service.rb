@@ -33,4 +33,17 @@ Auth=blah})
     assert_equal 'bar', svc.lsid
     assert_equal 'blah', svc.auth
   end
+
+  def test_should_not_login_to_blogger_service
+    url = URI.parse("https://www.google.com/accounts/ClientLogin")
+    http = mock()
+    Net::HTTP.expects(:new).with(url.host, url.port).returns(http)
+    http.expects(:use_ssl=).with(true)
+    resp = mock()
+    resp.expects(:is_a?).with(Net::HTTPOK).returns(false)
+    http.expects(:start).returns(resp)
+
+    svc = BloggerService.new('fake_email', 'fake_password')
+    assert !svc.login!
+  end
 end
